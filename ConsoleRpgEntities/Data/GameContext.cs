@@ -1,6 +1,7 @@
 ﻿using ConsoleRpgEntities.Models.Abilities.PlayerAbilities;
 using ConsoleRpgEntities.Models.Characters;
 using ConsoleRpgEntities.Models.Characters.Monsters;
+using ConsoleRpgEntities.Models.Equipables_Items;
 using Microsoft.EntityFrameworkCore;
 
 namespace ConsoleRpgEntities.Data
@@ -26,6 +27,12 @@ namespace ConsoleRpgEntities.Data
             modelBuilder.Entity<Ability>()
                 .HasDiscriminator<string>(pa=>pa.AbilityType)
                 .HasValue<ShoveAbility>("ShoveAbility");
+
+            // Configure TPH for Item hierarchy
+            modelBuilder.Entity<Item>()
+                .HasDiscriminator<string>("ItemType")
+                .HasValue<Weapon>("Weapon")
+                .HasValue<Armor>("Armor");
 
             // Configure many-to-many relationship
             modelBuilder.Entity<Player>()
