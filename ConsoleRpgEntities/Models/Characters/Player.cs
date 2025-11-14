@@ -1,5 +1,6 @@
 ﻿using ConsoleRpgEntities.Models.Abilities.PlayerAbilities;
 using ConsoleRpgEntities.Models.Attributes;
+using ConsoleRpgEntities.Models.Characters.Monsters;
 using ConsoleRpgEntities.Models.Equipables_Items;
 using ConsoleRpgEntities.Models.Equipment;
 
@@ -19,13 +20,21 @@ namespace ConsoleRpgEntities.Models.Characters
         public void Attack(ITargetable target)
         {
             // Player-specific attack logic
-            var damage = Equipment.Weapon.Damage - target.Equipment.Armour.Defence;
-            if (damage < 0) {
-                damage = 0;
+            if (Equipment == null)
+            {
+                ((Goblin)target).Health--;
             }
+            else
+            {
+                var damage = Equipment.Weapon.Damage - ((Goblin)target).Equipment.Armor.Defense;
+                if (damage < 0)
+                {
+                    damage = 0;
+                }
 
-            var newHealth = target.Health - damage;
-            target.Health = newHealth;
+                var newHealth = ((Goblin)target).Health - damage;
+                ((Goblin)target).Health = newHealth;
+            }
 
             Console.WriteLine($"{Name} attacks {target.Name} with a sword!");
         }

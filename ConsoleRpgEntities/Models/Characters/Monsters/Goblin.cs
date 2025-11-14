@@ -11,14 +11,21 @@ namespace ConsoleRpgEntities.Models.Characters.Monsters
         public override void Attack(ITargetable target)
         {
             // Goblin-specific attack logic
-            var damage = Equipment.Weapon.Damage - target.Equipment.Armour.Defence;
-            if (damage < 0)
+            if (Equipment == null)
             {
-                damage = 0;
+                ((Player)target).Health--;
             }
+            else
+            {
+                var damage = Equipment.Weapon.Damage - ((Player)target).Equipment.Armor.Defense;
+                if (damage < 0)
+                {
+                    damage = 0;
+                }
 
-            var newHealth = target.Health - damage;
-            target.Health = newHealth;
+                var newHealth = ((Player)target).Health - damage;
+                ((Player)target).Health = newHealth;
+            }
 
             Console.WriteLine($"{Name} sneaks up and attacks {target.Name}!");
         }
